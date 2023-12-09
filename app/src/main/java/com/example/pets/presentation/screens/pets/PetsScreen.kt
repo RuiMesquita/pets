@@ -1,21 +1,20 @@
 package com.example.pets.presentation.screens.pets
 
 import android.annotation.SuppressLint
-import android.net.Uri
-import android.os.Build
-import android.widget.Space
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -36,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,10 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.example.pets.R
-import com.example.pets.domain.enums.Gender
 import com.example.pets.domain.enums.Species
 import com.example.pets.domain.model.Pet
 import com.example.pets.presentation.navigation.Screens
@@ -58,7 +55,6 @@ import com.example.pets.presentation.ui.theme.PrimaryYellow
 import com.example.pets.presentation.ui.theme.SecondaryYellow
 import com.example.pets.presentation.ui.theme.WashedWhite
 import com.example.pets.presentation.ui.theme.customTypography
-import java.time.LocalDate
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -112,68 +108,112 @@ fun PetsScreen (
                     trailingIcon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.search), contentDescription = "search icon")}
                 )
 
-                LazyColumn(
-                    Modifier.fillMaxSize()
-                ) {
-                    items(pets.size) { i ->
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(SecondaryYellow, RoundedCornerShape(16.dp))
-                                .height(100.dp)
-                        ) {
-
-                            Row (
-                                verticalAlignment = Alignment.CenterVertically,
-                            ){
-                                AsyncImage(
-                                    model = pets[i].photo,
-                                    error = painterResource(id = R.drawable.image),
-                                    contentDescription = "pet_photo",
-                                    modifier = Modifier
-                                        .width(100.dp)
-                                        .height(100.dp)
-                                        .fillMaxSize()
-                                )
-
-                                Column(
-                                    Modifier.padding(start = 10.dp, end = 30.dp),
-                                ) {
-                                    Text(
-                                        text = pets[i].name,
-                                        style = customTypography.titleSmall,
-                                        color = DarkerGrey
-                                    )
-                                    Divider(
-                                        color = DarkerGrey
-                                    )
-                                    Spacer(modifier = Modifier.height(5.dp))
-                                    Row {
-                                        when(pets[i].specie) {
-                                            Species.CAT -> DisplayPetIcon(R.drawable.species_cat)
-                                            Species.DOG -> DisplayPetIcon(R.drawable.species_dog)
-                                            Species.COW -> DisplayPetIcon(R.drawable.species_cow)
-                                            Species.PIG -> DisplayPetIcon(R.drawable.species_pig)
-                                            Species.SHEEP -> DisplayPetIcon(R.drawable.species_sheep)
-                                        }
-
-                                        Column {
-                                            Text(
-                                                text = pets[i].specie.toString(),
-                                                style = customTypography.bodyMedium,
-                                                color = DarkerGrey
-                                            )
-                                            Text(
-                                                text = pets[i].dateOfBirth.toString(),
-                                                style = customTypography.bodyMedium,
-                                                color = DarkerGrey
-                                            )
-                                        }
-                                    }
-                                }
-                            }
+                if (pets.isNotEmpty()) {
+                    LazyColumn(
+                        Modifier.fillMaxSize()
+                    ) {
+                        items(pets.size) { i ->
+                            PetItem(
+                                pets = pets,
+                                i = i,
+                                onClick = { navController.navigate(Screens.PetProfile.route + "/${pets[i].id}") }
+                            )
                         }
+                    }
+                }
+                else {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                        .fillMaxSize(),
+                    ) {
+                        Column (
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Image(
+                                painter = painterResource(id = R.drawable.no_pets_found),
+                                contentDescription = "empty state screen",
+                                modifier = Modifier
+                                    .size(200.dp)
+                            )
+                            Text(
+                                text = "No Pets Found",
+                                style = customTypography.titleLarge
+                            )
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@Composable
+private fun PetItem(
+    pets: List<Pet>,
+    i: Int,
+    onClick: () -> Unit
+) {
+    Spacer(modifier = Modifier.height(20.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(SecondaryYellow, RoundedCornerShape(16.dp))
+            .height(100.dp)
+            .border(1.dp, PrimaryYellow, RoundedCornerShape(16.dp))
+            .clickable { onClick() }
+    ) {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AsyncImage(
+                model = pets[i].photo,
+                error = painterResource(id = R.drawable.image),
+                contentDescription = "pet_photo",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f)
+                    .clip(RoundedCornerShape(topStart = 16.dp, bottomStart = 16.dp))
+            )
+
+            Column(
+                Modifier
+                    .weight(2f)
+                    .padding(start = 10.dp, end = 30.dp),
+            ) {
+                Text(
+                    text = pets[i].name,
+                    style = customTypography.titleSmall,
+                    color = DarkerGrey
+                )
+                Divider(
+                    color = DarkerGrey
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+                Row {
+                    when (pets[i].specie) {
+                        Species.CAT -> DisplayPetIcon(R.drawable.species_cat)
+                        Species.DOG -> DisplayPetIcon(R.drawable.species_dog)
+                        Species.COW -> DisplayPetIcon(R.drawable.species_cow)
+                        Species.PIG -> DisplayPetIcon(R.drawable.species_pig)
+                        Species.SHEEP -> DisplayPetIcon(R.drawable.species_sheep)
+                    }
+
+                    Column {
+                        Text(
+                            text = pets[i].specie.toString(),
+                            style = customTypography.bodyMedium,
+                            color = DarkerGrey
+                        )
+                        Text(
+                            text = pets[i].dateOfBirth.toString(),
+                            style = customTypography.bodyMedium,
+                            color = DarkerGrey
+                        )
                     }
                 }
             }
@@ -193,22 +233,8 @@ private fun DisplayPetIcon(image: Int) {
     )
 }
 
-
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview
 @Composable
 fun preview() {
-    val pet = Pet(
-        "Piruças",
-        Species.CAT,
-        Gender.FEMALE,
-        LocalDate.now(),
-        "Gato do mato",
-        Uri.parse("https://live.staticflickr.com/5800/31456463045_5a0af4ddc8_s.jpg"),
-        12.1f,
-        emptyList(),
-        emptyList()
-    )
-
-    PetsScreen(rememberNavController(), listOf(pet))
+    PetsScreen(navController = rememberNavController(), pets = emptyList())
 }

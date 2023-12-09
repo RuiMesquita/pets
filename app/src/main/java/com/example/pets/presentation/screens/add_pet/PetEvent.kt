@@ -7,6 +7,7 @@ import java.time.LocalDate
 
 sealed interface PetEvent {
     object SavePet: PetEvent
+    object ResetPet: PetEvent
     data class SetName(val name: String): PetEvent
     data class SetSpecie(val specie: Species): PetEvent
     data class SetGender(val gender: Gender): PetEvent

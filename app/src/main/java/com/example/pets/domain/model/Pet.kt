@@ -7,6 +7,7 @@ import com.example.pets.domain.enums.Species
 import java.time.LocalDate
 
 data class Pet(
+    val id: Int?,
     val name: String,
     val specie: Species,
     val gender: Gender,

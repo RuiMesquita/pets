@@ -18,9 +18,8 @@ class AddPetViewModel @Inject constructor(
     private val repository: PetsRepository
 ): ViewModel() {
 
-    private val _state = MutableStateFlow(PetState())
-    val state: MutableStateFlow<PetState> get() = _state
-
+    private val _state = MutableStateFlow(AddPetState())
+    val state: MutableStateFlow<AddPetState> get() = _state
 
     fun onEvent(event: PetEvent) {
         when(event) {
@@ -48,6 +47,9 @@ class AddPetViewModel @Inject constructor(
                 viewModelScope.launch {
                     repository.insertPet(petEntity)
                 }
+            }
+            is PetEvent.ResetPet -> _state.update {
+                it.resetState()
             }
             is PetEvent.SetBreed -> {
                 _state.update { it.copy(breed = event.breed) }

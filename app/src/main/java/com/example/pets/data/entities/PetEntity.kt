@@ -43,6 +43,7 @@ data class PetEntity(
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun PetEntity.toPet() = Pet(
+    id = id,
     name = name,
     specie = Species.valueOf(specie),
     gender = Gender.valueOf(gender),
@@ -50,7 +51,6 @@ fun PetEntity.toPet() = Pet(
     breed = breed,
     photo = Uri.parse(photo),
     weight = weight,
-    //TODO remap medication and events when
     medications = emptyList(),
     events = emptyList()
 )

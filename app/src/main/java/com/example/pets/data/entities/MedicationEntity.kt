@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
+import com.example.pets.domain.model.Medication
 
 @Entity(
     tableName = "medications_table",
@@ -12,7 +13,7 @@ import androidx.room.PrimaryKey
 )
 data class MedicationEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int? = null,
 
     @ColumnInfo(name = "name")
     val name: String,
@@ -22,4 +23,11 @@ data class MedicationEntity(
 
     @ColumnInfo(name = "pet_id")
     val petId: Int
+)
+
+fun MedicationEntity.toMedication() = Medication(
+    id = id,
+    name = name,
+    description = description,
+    petId = petId
 )

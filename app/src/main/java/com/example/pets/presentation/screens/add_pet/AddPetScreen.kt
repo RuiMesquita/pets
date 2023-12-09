@@ -1,5 +1,6 @@
 package com.example.pets.presentation.screens.add_pet
 
+import android.content.Intent
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -43,16 +44,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.pets.R
 import com.example.pets.domain.enums.Gender
 import com.example.pets.domain.enums.Species
-import com.example.pets.presentation.navigation.Screens
 import com.example.pets.presentation.screens.common.TopBar
 import com.example.pets.presentation.ui.theme.Blue
 import com.example.pets.presentation.ui.theme.DarkerGrey
@@ -68,7 +68,7 @@ import com.example.pets.presentation.ui.theme.customTypography
 @Composable
 fun AddPetScreen(
     navHostController: NavHostController,
-    state: PetState,
+    state: AddPetState,
     onEvent: (PetEvent) -> Unit
 ) {
 
@@ -175,6 +175,7 @@ fun AddPetScreen(
                 .fillMaxWidth(),
             onClick = {
                 onEvent(PetEvent.SavePet)
+                onEvent(PetEvent.ResetPet)
                 navHostController.popBackStack()
             },
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryYellow)
@@ -289,11 +290,15 @@ private fun SpeciesSelection(
 @Composable
 private fun PhotoSelection(
     onEvent: (PetEvent) -> Unit,
-    state: PetState
+    state: AddPetState
 ) {
+    val context = LocalContext.current
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> onEvent(PetEvent.SetPhoto(uri)) }
+        onResult = { uri ->
+            if (uri == null) return@rememberLauncherForActivityResult
+            context.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            onEvent(PetEvent.SetPhoto(uri)) }
     )
     Text(
         text = "Photo",

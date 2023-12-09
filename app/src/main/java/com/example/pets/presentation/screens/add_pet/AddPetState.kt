@@ -5,11 +5,9 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.pets.domain.enums.Gender
 import com.example.pets.domain.enums.Species
-import com.example.pets.domain.model.Pet
-import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
-data class PetState(
+data class AddPetState(
     val name: String = "",
     val breed: String = "",
     val species: Species = Species.DOG,
@@ -17,4 +15,17 @@ data class PetState(
     val weight: String = "",
     val photo: Uri? = null,
     val dateOfBirth: String = ""
-)
+) {
+    fun resetState(): AddPetState {
+        return AddPetState(
+            name = "",
+            breed = "",
+            species = Species.DOG,
+            gender = Gender.MALE,
+            weight = "",
+            photo = null,
+            dateOfBirth = ""
+        )
+    }
+}
+

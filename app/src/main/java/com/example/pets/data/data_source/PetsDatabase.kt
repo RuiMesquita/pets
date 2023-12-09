@@ -9,7 +9,7 @@ import com.example.pets.data.entities.PetEntity
 
 @Database(
     entities = [PetEntity::class, EventEntity::class, MedicationEntity::class],
-    version = 1
+    version = 5
 )
 abstract class PetsDatabase: RoomDatabase() {
     abstract fun petsDao(): PetsDao
