@@ -17,7 +17,20 @@ data class Pet(
     val weight: Float,
     val medications: List<Medication>,
     val events: List<Event>
-)
+) {
+    fun doesMatchSearchCriteria(query: String): Boolean {
+        val matchingCombinations = listOf(
+            name,
+            specie.toString(),
+            gender.toString(),
+            "$breed"
+
+        )
+        return matchingCombinations.any {
+            it.contains(query, ignoreCase = true)
+        }
+    }
+}
 
 fun Pet.toPetEntity() = PetEntity(
     id = null,

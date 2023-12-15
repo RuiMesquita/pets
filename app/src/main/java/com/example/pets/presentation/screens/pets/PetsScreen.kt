@@ -1,6 +1,8 @@
 package com.example.pets.presentation.screens.pets
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,6 +32,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,13 +60,17 @@ import com.example.pets.presentation.ui.theme.SecondaryYellow
 import com.example.pets.presentation.ui.theme.WashedWhite
 import com.example.pets.presentation.ui.theme.customTypography
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PetsScreen (
     navController: NavController,
-    pets: List<Pet>
+    viewModel: PetsViewModel
 ) {
+    val pets by viewModel.pets.collectAsState()
+    val searchText by viewModel.searchText.collectAsState()
+
     PetsTheme {
         Scaffold(
             floatingActionButton = {
@@ -102,8 +110,8 @@ fun PetsScreen (
                         containerColor = DefaultGrey,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
-                    value = "",
-                    onValueChange = {},
+                    value = searchText,
+                    onValueChange = viewModel::onSearchTextChange,
                     placeholder = { Text(text = "Search...", style = customTypography.bodyMedium)},
                     trailingIcon = { Icon(imageVector = ImageVector.vectorResource(R.drawable.search), contentDescription = "search icon")}
                 )
@@ -231,10 +239,4 @@ private fun DisplayPetIcon(image: Int) {
             .height(35.dp)
             .width(35.dp)
     )
-}
-
-@Preview
-@Composable
-fun preview() {
-    PetsScreen(navController = rememberNavController(), pets = emptyList())
 }

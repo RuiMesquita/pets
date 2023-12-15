@@ -38,9 +38,8 @@ class MainActivity : ComponentActivity() {
 
                 composable(Screens.Pets.route) {
                     val petsViewModel: PetsViewModel = hiltViewModel()
-                    val pets by petsViewModel.pets.collectAsState()
 
-                    PetsScreen(navController, pets)
+                    PetsScreen(navController, petsViewModel)
                 }
 
                 composable(Screens.AddPet.route) {
