@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.pet_profile
+package com.example.pets.presentation.screens.petProfile
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -25,12 +25,12 @@ class PetProfileViewModel @Inject constructor(
     private val repository: PetsRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
-    private val _petState = MutableStateFlow(PetState())
-    val petState: MutableStateFlow<PetState> get() = _petState
+    private val _petRegistrationState = MutableStateFlow(PetRegistrationState())
+    val petRegistrationState: MutableStateFlow<PetRegistrationState> get() = _petRegistrationState
 
     init {
         savedStateHandle.get<Int>("id")?.let {id ->
-            _petState.update { it.copy(id = id) }
+            _petRegistrationState.update { it.copy(id = id) }
             getPetInfo(id)
 
         }
@@ -42,7 +42,7 @@ class PetProfileViewModel @Inject constructor(
                 .flowOn(Dispatchers.IO)
                 .collect { entity ->
                     val pet = entity.toPet()
-                    _petState.update { petState ->
+                    _petRegistrationState.update { petState ->
                         petState.copy(
                             photo = pet.photo,
                             name = pet.name,
@@ -65,28 +65,28 @@ class PetProfileViewModel @Inject constructor(
         when(event) {
             is PetProfileEvent.DeletePet -> {
                 viewModelScope.launch {
-                    repository.deletePet(_petState.value.id)
+                    repository.deletePet(_petRegistrationState.value.id)
                 }
             }
 
             is PetProfileEvent.DeleteEvent -> {
                 viewModelScope.launch {
-                    _petState.value.eventToDelete?.let { repository.deleteEvent(it) }
+                    _petRegistrationState.value.eventToDelete?.let { repository.deleteEvent(it) }
                 }
             }
 
             is PetProfileEvent.DeleteMedication -> {
                 viewModelScope.launch {
-                    _petState.value.medicationToDelete?.let { repository.deleteMedication(it) }
+                    _petRegistrationState.value.medicationToDelete?.let { repository.deleteMedication(it) }
                 }
             }
 
             is PetProfileEvent.SetDeleteEventItem -> {
-                _petState.update { it.copy(eventToDelete = event.eventEntity) }
+                _petRegistrationState.update { it.copy(eventToDelete = event.eventEntity) }
             }
 
             is PetProfileEvent.SetDeleteMedicationItem -> {
-                _petState.update { it.copy(medicationToDelete = event.medicationEntity) }
+                _petRegistrationState.update { it.copy(medicationToDelete = event.medicationEntity) }
             }
         }
     }
@@ -97,7 +97,7 @@ class PetProfileViewModel @Inject constructor(
             .flowOn(Dispatchers.IO)
             .collect { medication ->
                 val medicationList = medication.map { medicationEntity -> medicationEntity.toMedication() }
-                _petState.update { it.copy(medications = medicationList) }
+                _petRegistrationState.update { it.copy(medications = medicationList) }
             }
     }
 
@@ -106,7 +106,7 @@ class PetProfileViewModel @Inject constructor(
             .flowOn(Dispatchers.IO)
             .collect {entities ->
                 val events = entities.map { eventEntity -> eventEntity.toEvent() }
-                _petState.update { it.copy(events = events) }
+                _petRegistrationState.update { it.copy(events = events) }
             }
     }
 }

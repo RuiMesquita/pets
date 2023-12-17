@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.add_event
+package com.example.pets.presentation.screens.addEvent
 
 sealed interface EventEvent {
     object SaveEvent: EventEvent

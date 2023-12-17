@@ -1,13 +1,13 @@
-package com.example.pets.presentation.screens.add_pet
+package com.example.pets.presentation.screens.addPet
 
 import android.net.Uri
 import com.example.pets.domain.enums.Gender
 import com.example.pets.domain.enums.Species
-import java.time.LocalDate
 
 sealed interface PetEvent {
     object SavePet: PetEvent
     object ResetPet: PetEvent
+    object ValidatePetData: PetEvent
     data class SetName(val name: String): PetEvent
     data class SetSpecie(val specie: Species): PetEvent
     data class SetGender(val gender: Gender): PetEvent

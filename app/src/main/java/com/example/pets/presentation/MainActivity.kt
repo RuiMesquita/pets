@@ -14,14 +14,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.pets.presentation.navigation.Screens
-import com.example.pets.presentation.screens.add_event.AddEventScreen
-import com.example.pets.presentation.screens.add_event.AddEventViewModel
-import com.example.pets.presentation.screens.add_medication.AddMedicationScreen
-import com.example.pets.presentation.screens.add_medication.AddMedicationViewModel
-import com.example.pets.presentation.screens.add_pet.AddPetScreen
-import com.example.pets.presentation.screens.add_pet.AddPetViewModel
-import com.example.pets.presentation.screens.pet_profile.PetProfileScreen
-import com.example.pets.presentation.screens.pet_profile.PetProfileViewModel
+import com.example.pets.presentation.screens.addEvent.AddEventScreen
+import com.example.pets.presentation.screens.addEvent.AddEventViewModel
+import com.example.pets.presentation.screens.addMedication.AddMedicationScreen
+import com.example.pets.presentation.screens.addMedication.AddMedicationViewModel
+import com.example.pets.presentation.screens.addPet.AddPetScreen
+import com.example.pets.presentation.screens.addPet.AddPetViewModel
+import com.example.pets.presentation.screens.petProfile.PetProfileScreen
+import com.example.pets.presentation.screens.petProfile.PetProfileViewModel
 import com.example.pets.presentation.screens.pets.PetsScreen
 import com.example.pets.presentation.screens.pets.PetsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,8 +45,9 @@ class MainActivity : ComponentActivity() {
                 composable(Screens.AddPet.route) {
                     val addPetViewModel: AddPetViewModel = hiltViewModel()
                     val state by addPetViewModel.state.collectAsState()
+                    val validationEvents = addPetViewModel.validationEvents
 
-                    AddPetScreen(navController, state, addPetViewModel::onEvent)
+                    AddPetScreen(navController, state, addPetViewModel::onEvent, validationEvents)
                 }
 
                 composable(
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
                     arguments = listOf(navArgument("id") { type = NavType.IntType })
                 ) {
                     val petProfileViewModel: PetProfileViewModel = hiltViewModel()
-                    val petState by petProfileViewModel.petState.collectAsState()
+                    val petState by petProfileViewModel.petRegistrationState.collectAsState()
 
                     PetProfileScreen(navController, petState, petProfileViewModel::onEvent)
                 }

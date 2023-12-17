@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.add_pet
+package com.example.pets.presentation.screens.addPet
 
 import android.content.Intent
 import android.os.Build
@@ -33,6 +33,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -61,6 +62,7 @@ import com.example.pets.presentation.ui.theme.Pink
 import com.example.pets.presentation.ui.theme.PrimaryYellow
 import com.example.pets.presentation.ui.theme.WashedWhite
 import com.example.pets.presentation.ui.theme.customTypography
+import kotlinx.coroutines.flow.Flow
 
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -69,9 +71,22 @@ import com.example.pets.presentation.ui.theme.customTypography
 fun AddPetScreen(
     navHostController: NavHostController,
     state: AddPetState,
-    onEvent: (PetEvent) -> Unit
+    onEvent: (PetEvent) -> Unit,
+    validationEvent: Flow<AddPetViewModel.ValidationEvent>
 ) {
-
+    val context = LocalContext.current
+    LaunchedEffect(key1 = context) {
+        validationEvent.collect { event ->
+            when(event) {
+                is AddPetViewModel.ValidationEvent.Success -> {
+                    onEvent(PetEvent.SavePet)
+                    onEvent(PetEvent.ResetPet)
+                    navHostController.popBackStack()
+                }
+            }
+        }
+    }
+    
     Column(
         modifier = Modifier
             .background(WashedWhite)
@@ -108,11 +123,18 @@ fun AddPetScreen(
             placeholder = { Text(text = "Full Name", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0))},
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
+            isError = state.nameError != null,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
             ),
         )
+        if (state.nameError != null) {
+            Text(
+                text = state.nameError,
+                color = Color.Red
+            )
+        }
 
         YSpacing15Dp()
         OutlinedTextField(
@@ -122,11 +144,18 @@ fun AddPetScreen(
             placeholder = { Text(text = "Breed", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0))},
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
+            isError = state.breedError != null,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
             ),
         )
+        if (state.breedError != null) {
+            Text(
+                text = state.breedError,
+                color = Color.Red
+            )
+        }
 
         YSpacing15Dp()
         var selectedGender by remember { mutableStateOf(state.gender) }
@@ -146,11 +175,18 @@ fun AddPetScreen(
             placeholder = { Text(text = "Weight", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0))},
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
+            isError = state.weightError != null,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
             ),
         )
+        if (state.weightError != null) {
+            Text(
+                text = state.weightError,
+                color = Color.Red
+            )
+        }
 
         YSpacing15Dp()
         OutlinedTextField(
@@ -160,11 +196,18 @@ fun AddPetScreen(
             placeholder = { Text(text = "Date of birth", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0))},
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
+            isError = state.dateOfBirtheError != null,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
             ),
         )
+        if (state.dateOfBirtheError != null) {
+            Text(
+                text = state.dateOfBirtheError,
+                color = Color.Red
+            )
+        }
 
         Spacer(modifier = Modifier.height(30.dp))
 
@@ -174,9 +217,8 @@ fun AddPetScreen(
                 .height(60.dp)
                 .fillMaxWidth(),
             onClick = {
-                onEvent(PetEvent.SavePet)
-                onEvent(PetEvent.ResetPet)
-                navHostController.popBackStack()
+                onEvent(PetEvent.ValidatePetData)
+
             },
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryYellow)
         ) {

@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.add_pet
+package com.example.pets.presentation.screens.addPet
 
 import android.net.Uri
 import android.os.Build
@@ -9,12 +9,17 @@ import com.example.pets.domain.enums.Species
 @RequiresApi(Build.VERSION_CODES.O)
 data class AddPetState(
     val name: String = "",
+    val nameError: String? = null,
     val breed: String = "",
+    val breedError: String? = null,
     val species: Species = Species.DOG,
     val gender: Gender = Gender.MALE,
     val weight: String = "",
+    val weightError: String? = null,
     val photo: Uri? = null,
-    val dateOfBirth: String = ""
+    val photoError: String? = null,
+    val dateOfBirth: String = "",
+    val dateOfBirtheError: String? = null
 ) {
     fun resetState(): AddPetState {
         return AddPetState(

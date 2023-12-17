@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.pet_profile
+package com.example.pets.presentation.screens.petProfile
 
 import com.example.pets.data.entities.EventEntity
 import com.example.pets.data.entities.MedicationEntity

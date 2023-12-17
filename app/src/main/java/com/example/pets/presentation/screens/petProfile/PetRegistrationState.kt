@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.pet_profile
+package com.example.pets.presentation.screens.petProfile
 
 import android.net.Uri
 import com.example.pets.data.entities.EventEntity
@@ -7,7 +7,7 @@ import com.example.pets.domain.enums.Gender
 import com.example.pets.domain.model.Event
 import com.example.pets.domain.model.Medication
 
-data class PetState (
+data class PetRegistrationState (
     val isLoading: Boolean = false,
     val error: String = "",
     val id: Int = 0,

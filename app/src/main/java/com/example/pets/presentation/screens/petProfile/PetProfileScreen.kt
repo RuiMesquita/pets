@@ -1,13 +1,9 @@
-package com.example.pets.presentation.screens.pet_profile
+package com.example.pets.presentation.screens.petProfile
 
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,10 +29,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,11 +41,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.pets.R
 import com.example.pets.common.Constants.daySuffixes
@@ -71,14 +63,13 @@ import com.example.pets.presentation.ui.theme.WashedWhite
 import com.example.pets.presentation.ui.theme.customTypography
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
-import kotlin.reflect.KFunction2
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PetProfileScreen (
     navController: NavController,
-    petState: PetState,
+    petRegistrationState: PetRegistrationState,
     onEvent: (PetProfileEvent) -> Unit
 ) {
     var openAlertDialog by remember { mutableStateOf(false) }
@@ -109,7 +100,7 @@ fun PetProfileScreen (
             .verticalScroll(rememberScrollState())
     ) {
         TopBar(
-            title = petState.name,
+            title = petRegistrationState.name,
             leftIcon = R.drawable.arrow_back,
             rightIcon = R.drawable.menu,
             leftButtonOnClickAction = { navController.popBackStack() },
@@ -126,12 +117,12 @@ fun PetProfileScreen (
             ) {
                 DropdownMenuItem(
                     text = { Text(text = "Schedule events", style = customTypography.bodyMedium) },
-                    onClick = { navController.navigate(Screens.AddEvent.route + "/${petState.id}") },
+                    onClick = { navController.navigate(Screens.AddEvent.route + "/${petRegistrationState.id}") },
                 )
                 Divider()
                 DropdownMenuItem(
                     text = { Text(text = "Add Medication", style = customTypography.bodyMedium) },
-                    onClick = { navController.navigate(Screens.AddMedication.route + "/${petState.id}") }
+                    onClick = { navController.navigate(Screens.AddMedication.route + "/${petRegistrationState.id}") }
                 )
                 Divider()
                 DropdownMenuItem(
@@ -147,7 +138,7 @@ fun PetProfileScreen (
         Spacer(modifier = Modifier.height(20.dp))
 
         AsyncImage(
-            model = petState.photo,
+            model = petRegistrationState.photo,
             contentScale = ContentScale.Crop,
             contentDescription = "pet photo",
             error = painterResource(id = R.drawable.image),
@@ -163,21 +154,21 @@ fun PetProfileScreen (
                 .fillMaxWidth()
         ){
             InfoBoxes(
-                title = petState.gender.toString(),
+                title = petRegistrationState.gender.toString(),
                 body = "Sex",
                 color = Green,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(10.dp))
             InfoBoxes(
-                title = "${petState.age} Years",
+                title = "${petRegistrationState.age} Years",
                 body = "Age",
                 color = Blue,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(10.dp))
             InfoBoxes(
-                title = "${petState.weight} Kg",
+                title = "${petRegistrationState.weight} Kg",
                 body = "Weight",
                 color = SecondaryYellow,
                 modifier = Modifier.weight(1f)
@@ -191,7 +182,7 @@ fun PetProfileScreen (
                 .fillMaxWidth()
         )
 
-        petState.events.forEach { event ->
+        petRegistrationState.events.forEach { event ->
             Spacer(modifier = Modifier.height(14.dp))
             SwipeableActionsBox(
                 endActions = listOf(
@@ -219,7 +210,7 @@ fun PetProfileScreen (
                 .fillMaxWidth()
         )
 
-        petState.medications.forEach { medication ->
+        petRegistrationState.medications.forEach { medication ->
             Spacer(modifier = Modifier.height(14.dp))
             SwipeableActionsBox(
                 endActions = listOf(

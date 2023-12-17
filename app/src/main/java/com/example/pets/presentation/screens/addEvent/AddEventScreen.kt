@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.add_medication
+package com.example.pets.presentation.screens.addEvent
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -18,23 +18,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.pets.R
-import com.example.pets.presentation.screens.add_pet.YSpacing15Dp
+import com.example.pets.presentation.screens.addPet.YSpacing15Dp
 import com.example.pets.presentation.screens.common.TopBar
 import com.example.pets.presentation.ui.theme.PrimaryYellow
 import com.example.pets.presentation.ui.theme.WashedWhite
 import com.example.pets.presentation.ui.theme.customTypography
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddMedicationScreen(
+fun AddEventScreen(
     navController: NavController,
-    state: MedicationState,
-    onEvent: (MedicationEvent) -> Unit
+    state: EventState,
+    onEvent: (EventEvent) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -44,7 +43,7 @@ fun AddMedicationScreen(
             .fillMaxSize()
     ) {
         TopBar(
-            title = "Add Medication",
+            title = "Add Events",
             leftIcon = R.drawable.arrow_back,
             leftButtonOnClickAction = { navController.popBackStack() },
             displayRightButton = false
@@ -53,9 +52,9 @@ fun AddMedicationScreen(
         YSpacing15Dp()
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = state.name,
-            onValueChange = { onEvent(MedicationEvent.SetName(it)) },
-            placeholder = { Text(text = "Medication name", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0)) },
+            value = state.eventName,
+            onValueChange = { onEvent(EventEvent.SetNameEvent(it)) },
+            placeholder = { Text(text = "Event name", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0)) },
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -67,10 +66,25 @@ fun AddMedicationScreen(
         YSpacing15Dp()
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = state.description,
-            onValueChange = { onEvent(MedicationEvent.SetDescription(it)) },
-            placeholder = { Text(text = "Description", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0)) },
+            value = state.eventDate,
+            onValueChange = { onEvent(EventEvent.SetEventDate(it))},
+            placeholder = { Text(text = "Event date", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0)) },
             shape = RoundedCornerShape(16.dp),
+            singleLine = true,
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                unfocusedBorderColor = Color(0xFFC0C0C0),
+                focusedBorderColor = PrimaryYellow
+            ),
+        )
+
+        YSpacing15Dp()
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = state.eventHour,
+            onValueChange = { onEvent(EventEvent.SetEventHour(it)) },
+            placeholder = { Text(text = "Event hour", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0)) },
+            shape = RoundedCornerShape(16.dp),
+            singleLine = true,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
@@ -85,7 +99,8 @@ fun AddMedicationScreen(
                 .height(60.dp)
                 .fillMaxWidth(),
             onClick = {
-                onEvent(MedicationEvent.SaveMedication)
+                onEvent(EventEvent.SaveEvent)
+                onEvent(EventEvent.ResetEvent)
                 navController.popBackStack()
             },
             colors = ButtonDefaults.buttonColors(containerColor = PrimaryYellow)

@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.add_event
+package com.example.pets.presentation.screens.addEvent
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

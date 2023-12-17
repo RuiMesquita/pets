@@ -1,4 +1,4 @@
-package com.example.pets.presentation.screens.add_medication
+package com.example.pets.presentation.screens.addMedication
 
 sealed interface MedicationEvent {
 
