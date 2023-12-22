@@ -54,6 +54,7 @@ import coil.compose.AsyncImage
 import com.example.pets.R
 import com.example.pets.domain.enums.Gender
 import com.example.pets.domain.enums.Species
+import com.example.pets.presentation.screens.ValidationEvent
 import com.example.pets.presentation.screens.common.TopBar
 import com.example.pets.presentation.ui.theme.Blue
 import com.example.pets.presentation.ui.theme.DarkerGrey
@@ -72,13 +73,13 @@ fun AddPetScreen(
     navHostController: NavHostController,
     state: AddPetState,
     onEvent: (PetEvent) -> Unit,
-    validationEvent: Flow<AddPetViewModel.ValidationEvent>
+    validationEvent: Flow<ValidationEvent>
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = context) {
         validationEvent.collect { event ->
             when(event) {
-                is AddPetViewModel.ValidationEvent.Success -> {
+                is ValidationEvent.Success -> {
                     onEvent(PetEvent.SavePet)
                     onEvent(PetEvent.ResetPet)
                     navHostController.popBackStack()

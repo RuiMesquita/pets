@@ -25,6 +25,7 @@ import com.example.pets.presentation.screens.petProfile.PetProfileViewModel
 import com.example.pets.presentation.screens.pets.PetsScreen
 import com.example.pets.presentation.screens.pets.PetsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectIndexed
 
 @RequiresApi(Build.VERSION_CODES.O)
 @AndroidEntryPoint
@@ -66,8 +67,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val addEventViewModel: AddEventViewModel = hiltViewModel()
                     val eventState by addEventViewModel.state.collectAsState()
+                    val validationEvent = addEventViewModel.validationEvents
 
-                    AddEventScreen(navController, eventState, addEventViewModel::onEvent)
+                    AddEventScreen(navController, eventState, addEventViewModel::onEvent, validationEvent)
                 }
 
                 composable(

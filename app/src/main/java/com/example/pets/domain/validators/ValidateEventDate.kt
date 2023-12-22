@@ -1,0 +1,35 @@
+package com.example.pets.domain.validators
+
+import android.os.Build
+import androidx.annotation.RequiresApi
+import com.example.pets.common.Constants
+import java.time.LocalDate
+
+class ValidateEventDate {
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun execute(date: String): ValidationResult {
+        if (date.isBlank()) {
+            return ValidationResult(
+                successful = false,
+                errorMessage = "Event date field can't be empty"
+            )
+        }
+        try {
+            val dateTime = LocalDate.parse(date, Constants.DATE_FORMATTER)
+            if (dateTime.isBefore(LocalDate.now())) {
+                return ValidationResult(
+                    successful = false,
+                    errorMessage = "Invalid date"
+                )
+            }
+
+        } catch (e: Exception) {
+            return ValidationResult(
+                successful = false,
+                errorMessage = "Invalid date"
+            )
+        }
+        return ValidationResult(successful = true)
+    }
+}

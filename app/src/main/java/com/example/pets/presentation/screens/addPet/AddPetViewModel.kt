@@ -10,6 +10,7 @@ import com.example.pets.domain.validators.ValidateBreed
 import com.example.pets.domain.validators.ValidateDateOfBirth
 import com.example.pets.domain.validators.ValidateName
 import com.example.pets.domain.validators.ValidateWeight
+import com.example.pets.presentation.screens.ValidationEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -106,9 +107,5 @@ class AddPetViewModel @Inject constructor(
                 _state.update { it.copy(weight = event.weight) }
             }
         }
-    }
-
-    sealed class ValidationEvent {
-        object Success: ValidationEvent()
     }
 }
