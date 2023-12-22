@@ -78,8 +78,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val addMedicationViewModel: AddMedicationViewModel = hiltViewModel()
                     val medicationState by addMedicationViewModel.state.collectAsState()
+                    val validationEvent = addMedicationViewModel.validationEvents
 
-                    AddMedicationScreen(navController, medicationState, addMedicationViewModel::onEvent)
+                    AddMedicationScreen(navController, medicationState, addMedicationViewModel::onEvent, validationEvent)
                 }
             }
         }
