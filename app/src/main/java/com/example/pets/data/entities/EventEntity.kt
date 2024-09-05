@@ -7,11 +7,9 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
-import com.example.pets.common.Constants
 import com.example.pets.common.Constants.DATE_FORMATTER
 import com.example.pets.domain.model.Event
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
 
 @Entity(

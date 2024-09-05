@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pets.R
-import com.example.pets.common.Constants.daySuffixes
+import com.example.pets.common.Constants.DAY_SUFFIXES
 import com.example.pets.domain.model.toEventEntity
 import com.example.pets.domain.model.toMedicationEntity
 import com.example.pets.presentation.navigation.Screens
@@ -195,7 +195,7 @@ fun PetProfileScreen (
             ) {
                 EventItem(
                     eventName = event.name,
-                    day = "${event.date.dayOfMonth}${daySuffixes[event.date.dayOfMonth]}",
+                    day = "${event.date.dayOfMonth}${DAY_SUFFIXES[event.date.dayOfMonth]}",
                     month = "${event.date.month}",
                     hour = "${event.time}h"
                 )

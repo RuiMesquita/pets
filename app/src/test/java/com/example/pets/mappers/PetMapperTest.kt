@@ -13,11 +13,6 @@ import java.time.LocalDate
 class PetMapperTest {
 
     @Test
-    fun pet_toEntity() {
-
-    }
-
-    @Test
     fun entity_toPet() {
         // Arrange
         val entity = PetEntity(
@@ -48,6 +43,6 @@ class PetMapperTest {
         val result = entity.toPet()
 
         // Assert
-        assert(result == expectedPet)
+        assertEquals(expectedPet, result)
     }
 }

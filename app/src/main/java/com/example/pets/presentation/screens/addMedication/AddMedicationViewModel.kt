@@ -42,6 +42,7 @@ class AddMedicationViewModel @Inject constructor(
             MedicationEvent.ResetMedication -> {
                 _state.update { it.resetState() }
             }
+
             MedicationEvent.ValidateMedication -> {
                 val nameResult = validateName.execute(state.value.name)
                 val descriptionResult = validateDescription.execute(state.value.description)
@@ -63,12 +64,12 @@ class AddMedicationViewModel @Inject constructor(
                     validationEventChannel.send(ValidationEvent.Success)
                 }
             }
+
+
             is MedicationEvent.SaveMedication -> {
                 val medicationName = _state.value.name
                 val medicationDescription = _state.value.description
                 val petId = _state.value.petId
-
-                // TODO add validations
 
                 val medicationEntity = MedicationEntity(
                     name = medicationName,
