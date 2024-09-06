@@ -49,6 +49,8 @@ fun AddMedicationScreen(
                     onEvent(MedicationEvent.ResetMedication)
                     navController.popBackStack()
                 }
+
+                else -> {}
             }
         }
     }

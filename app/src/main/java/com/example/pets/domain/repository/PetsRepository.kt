@@ -21,6 +21,8 @@ interface PetsRepository {
     // Events table
     fun getPetEvents(id: Int): Flow<List<EventEntity>>
 
+    fun getPetEventsWithin30Days(): Flow<List<EventEntity>>
+
     suspend fun insertEvent(eventEntity: EventEntity)
 
     suspend fun deleteEvent(eventEntity: EventEntity)

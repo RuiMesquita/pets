@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,6 +21,8 @@ import com.example.pets.presentation.screens.addMedication.AddMedicationScreen
 import com.example.pets.presentation.screens.addMedication.AddMedicationViewModel
 import com.example.pets.presentation.screens.addPet.AddPetScreen
 import com.example.pets.presentation.screens.addPet.AddPetViewModel
+import com.example.pets.presentation.screens.calendar.CalendarScreen
+import com.example.pets.presentation.screens.calendar.CalendarViewModel
 import com.example.pets.presentation.screens.petProfile.PetProfileScreen
 import com.example.pets.presentation.screens.petProfile.PetProfileViewModel
 import com.example.pets.presentation.screens.pets.PetsScreen
@@ -80,6 +83,12 @@ class MainActivity : ComponentActivity() {
                     val validationEvent = addMedicationViewModel.validationEvents
 
                     AddMedicationScreen(navController, medicationState, addMedicationViewModel::onEvent, validationEvent)
+                }
+
+                composable(Screens.Calendar.route) {
+                    val calendarViewModel: CalendarViewModel = hiltViewModel()
+
+                    CalendarScreen(navController, calendarViewModel)
                 }
             }
         }

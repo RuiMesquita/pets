@@ -36,6 +36,14 @@ interface PetsDao {
     @Query("SELECT * FROM events_table WHERE pet_id=:id")
     fun getPetEvents(id: Int): Flow<List<EventEntity>>
 
+    @Query("""
+        SELECT * FROM events_table 
+        WHERE DATE(substr(date, 7, 4) || '-' || substr(date, 4, 2) || '-' || substr(date, 1, 2)) >= DATE('now')
+        AND DATE(substr(date, 7, 4) || '-' || substr(date, 4, 2) || '-' || substr(date, 1, 2)) <= DATE('now', '+30 days')
+        ORDER BY substr(date, 7, 4) || '-' || substr(date, 4, 2) || '-' || substr(date, 1, 2) ASC
+    """)
+    fun getPetEventsWithin30Days(): Flow<List<EventEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: EventEntity)
 

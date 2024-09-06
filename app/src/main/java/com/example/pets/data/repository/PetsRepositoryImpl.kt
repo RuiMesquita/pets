@@ -4,7 +4,6 @@ import com.example.pets.data.data_source.PetsDao
 import com.example.pets.data.entities.EventEntity
 import com.example.pets.data.entities.MedicationEntity
 import com.example.pets.data.entities.PetEntity
-import com.example.pets.domain.model.Medication
 import com.example.pets.domain.repository.PetsRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -35,6 +34,10 @@ class PetsRepositoryImpl(
         return dao.getPetEvents(id)
     }
 
+    override fun getPetEventsWithin30Days(): Flow<List<EventEntity>> {
+        return dao.getPetEventsWithin30Days()
+    }
+
     override suspend fun insertEvent(eventEntity: EventEntity) {
         return dao.insertEvent(eventEntity)
     }
@@ -47,11 +50,11 @@ class PetsRepositoryImpl(
         return dao.getPetMedication(id)
     }
 
-    override suspend fun insertMedication(medication: MedicationEntity) {
-        return dao.insertMedication(medication)
+    override suspend fun insertMedication(medicationEntity: MedicationEntity) {
+        return dao.insertMedication(medicationEntity)
     }
 
-    override suspend fun deleteMedication(medication: MedicationEntity) {
-        return dao.deleteMedication(medication)
+    override suspend fun deleteMedication(medicationEntity: MedicationEntity) {
+        return dao.deleteMedication(medicationEntity)
     }
 }
