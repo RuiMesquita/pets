@@ -157,6 +157,7 @@ fun PetsScreen (
     }
 }
 
+
 @Composable
 private fun PetItem(
     pets: List<Pet>,
@@ -227,6 +228,7 @@ private fun PetItem(
         }
     }
 }
+
 
 @Composable
 private fun DisplayPetIcon(image: Int) {

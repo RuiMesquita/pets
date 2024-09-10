@@ -44,11 +44,20 @@ interface PetsDao {
     """)
     fun getPetEventsWithin30Days(): Flow<List<EventEntity>>
 
+    @Query("""
+        SELECT * FROM events_table
+        WHERE DATE(substr(date, 7, 4) || '-' || substr(date, 4, 2) || '-' || substr(date, 1, 2)) < DATE('now')
+    """)
+    fun getOverdueEvents(): Flow<List<EventEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertEvent(event: EventEntity)
 
     @Delete
     suspend fun deleteEvent(event: EventEntity)
+
+    @Delete
+    suspend fun deleteEvents(events: List<EventEntity>)
 
     // Medication table
     @Query("SELECT * FROM medications_table WHERE pet_id=:id")

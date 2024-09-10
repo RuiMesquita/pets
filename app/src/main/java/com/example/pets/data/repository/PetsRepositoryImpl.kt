@@ -38,6 +38,14 @@ class PetsRepositoryImpl(
         return dao.getPetEventsWithin30Days()
     }
 
+    override fun getOverdueEvents(): Flow<List<EventEntity>> {
+        return dao.getOverdueEvents()
+    }
+
+    override suspend fun deleteEvents(events: List<EventEntity>) {
+        return dao.deleteEvents(events)
+    }
+
     override suspend fun insertEvent(eventEntity: EventEntity) {
         return dao.insertEvent(eventEntity)
     }
