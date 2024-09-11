@@ -3,8 +3,8 @@ package com.example.pets.presentation.screens.addPet
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.pets.domain.enums.Gender
-import com.example.pets.domain.enums.Species
+import com.example.pets.domain.model.enums.Gender
+import com.example.pets.domain.model.enums.Species
 
 @RequiresApi(Build.VERSION_CODES.O)
 data class AddPetState(

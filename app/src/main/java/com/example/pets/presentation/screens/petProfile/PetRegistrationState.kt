@@ -3,7 +3,7 @@ package com.example.pets.presentation.screens.petProfile
 import android.net.Uri
 import com.example.pets.data.entities.EventEntity
 import com.example.pets.data.entities.MedicationEntity
-import com.example.pets.domain.enums.Gender
+import com.example.pets.domain.model.enums.Gender
 import com.example.pets.domain.model.Event
 import com.example.pets.domain.model.Medication
 

@@ -1,6 +1,7 @@
 package com.example.pets
 
 import android.app.Application
+import com.example.pets.domain.repository.EventRepository
 import com.example.pets.domain.repository.PetsRepository
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class PetsApplication: Application() {
 
     @Inject
-    lateinit var repository: PetsRepository
+    lateinit var repository: EventRepository
 
     override fun onCreate() {
         super.onCreate()

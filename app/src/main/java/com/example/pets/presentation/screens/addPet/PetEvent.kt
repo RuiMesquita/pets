@@ -1,8 +1,8 @@
 package com.example.pets.presentation.screens.addPet
 
 import android.net.Uri
-import com.example.pets.domain.enums.Gender
-import com.example.pets.domain.enums.Species
+import com.example.pets.domain.model.enums.Gender
+import com.example.pets.domain.model.enums.Species
 
 sealed interface PetEvent {
     object SavePet: PetEvent

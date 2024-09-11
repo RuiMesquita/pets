@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pets.data.entities.MedicationEntity
+import com.example.pets.domain.repository.MedicationRepository
 import com.example.pets.domain.repository.PetsRepository
 import com.example.pets.domain.validators.ValidateDescription
 import com.example.pets.domain.validators.ValidateName
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddMedicationViewModel @Inject constructor(
-    private val repository: PetsRepository,
+    private val repository: MedicationRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 

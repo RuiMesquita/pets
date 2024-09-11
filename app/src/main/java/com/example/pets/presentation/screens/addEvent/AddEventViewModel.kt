@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pets.data.entities.EventEntity
+import com.example.pets.domain.repository.EventRepository
 import com.example.pets.domain.repository.PetsRepository
 import com.example.pets.domain.validators.ValidateEventDate
 import com.example.pets.domain.validators.ValidateHour
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEventViewModel @Inject constructor(
-    private val repository: PetsRepository,
+    private val repository: EventRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
 

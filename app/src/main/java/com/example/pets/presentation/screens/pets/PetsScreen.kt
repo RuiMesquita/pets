@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.pets.R
-import com.example.pets.domain.enums.Species
+import com.example.pets.domain.model.enums.Species
 import com.example.pets.domain.model.Pet
 import com.example.pets.presentation.navigation.Screens
 import com.example.pets.presentation.screens.common.TopBar

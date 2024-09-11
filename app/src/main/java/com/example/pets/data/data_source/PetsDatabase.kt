@@ -13,4 +13,6 @@ import com.example.pets.data.entities.PetEntity
 )
 abstract class PetsDatabase: RoomDatabase() {
     abstract fun petsDao(): PetsDao
+    abstract fun eventsDao(): EventsDao
+    abstract fun medicationDao(): MedicationDao
 }

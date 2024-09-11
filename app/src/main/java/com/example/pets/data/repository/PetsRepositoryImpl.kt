@@ -29,40 +29,4 @@ class PetsRepositoryImpl(
     override suspend fun updatePet(petEntity: PetEntity) {
         return dao.updatePet(petEntity)
     }
-
-    override fun getPetEvents(id: Int): Flow<List<EventEntity>> {
-        return dao.getPetEvents(id)
-    }
-
-    override fun getPetEventsWithin30Days(): Flow<List<EventEntity>> {
-        return dao.getPetEventsWithin30Days()
-    }
-
-    override fun getOverdueEvents(): Flow<List<EventEntity>> {
-        return dao.getOverdueEvents()
-    }
-
-    override suspend fun deleteEvents(events: List<EventEntity>) {
-        return dao.deleteEvents(events)
-    }
-
-    override suspend fun insertEvent(eventEntity: EventEntity) {
-        return dao.insertEvent(eventEntity)
-    }
-
-    override suspend fun deleteEvent(eventEntity: EventEntity) {
-        return dao.deleteEvent(eventEntity)
-    }
-
-    override fun getPetMedication(id: Int): Flow<List<MedicationEntity>> {
-        return dao.getPetMedication(id)
-    }
-
-    override suspend fun insertMedication(medicationEntity: MedicationEntity) {
-        return dao.insertMedication(medicationEntity)
-    }
-
-    override suspend fun deleteMedication(medicationEntity: MedicationEntity) {
-        return dao.deleteMedication(medicationEntity)
-    }
 }

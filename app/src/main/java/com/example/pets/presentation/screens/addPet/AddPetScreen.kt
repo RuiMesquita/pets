@@ -52,8 +52,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.pets.R
-import com.example.pets.domain.enums.Gender
-import com.example.pets.domain.enums.Species
+import com.example.pets.domain.model.enums.Gender
+import com.example.pets.domain.model.enums.Species
 import com.example.pets.presentation.screens.ValidationEvent
 import com.example.pets.presentation.screens.common.TopBar
 import com.example.pets.presentation.ui.theme.Blue
@@ -303,27 +303,27 @@ private fun SpeciesSelection(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         SpeciesOption(
-            species =Species.DOG,
+            species = Species.DOG,
             isSelected = updatedSelectedSpecies.value == Species.DOG,
             onSpeciesSelection = onSpeciesSelection
         )
         SpeciesOption(
-            species =Species.CAT,
+            species = Species.CAT,
             isSelected = updatedSelectedSpecies.value == Species.CAT,
             onSpeciesSelection = onSpeciesSelection
         )
         SpeciesOption(
-            species =Species.PIG,
+            species = Species.PIG,
             isSelected = updatedSelectedSpecies.value == Species.PIG,
             onSpeciesSelection = onSpeciesSelection
         )
         SpeciesOption(
-            species =Species.COW,
+            species = Species.COW,
             isSelected = updatedSelectedSpecies.value == Species.COW,
             onSpeciesSelection = onSpeciesSelection
         )
         SpeciesOption(
-            species =Species.SHEEP,
+            species = Species.SHEEP,
             isSelected = updatedSelectedSpecies.value == Species.SHEEP,
             onSpeciesSelection = onSpeciesSelection
         )

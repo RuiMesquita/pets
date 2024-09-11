@@ -7,8 +7,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.pets.common.Constants.DATE_FORMATTER
-import com.example.pets.domain.enums.Gender
-import com.example.pets.domain.enums.Species
+import com.example.pets.domain.model.enums.Gender
+import com.example.pets.domain.model.enums.Species
 import com.example.pets.domain.model.Pet
 import java.time.LocalDate
 

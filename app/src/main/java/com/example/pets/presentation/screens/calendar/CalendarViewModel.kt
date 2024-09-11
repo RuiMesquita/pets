@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pets.data.entities.toEvent
 import com.example.pets.domain.model.Event
+import com.example.pets.domain.repository.EventRepository
 import com.example.pets.domain.repository.PetsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.O)
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val repository: PetsRepository
+    private val petRepository: PetsRepository,
+    private val eventRepository: EventRepository
 ): ViewModel() {
     private val _calendarEvent = MutableStateFlow<List<CalendarEvent>>(emptyList())
     val calendarEvent: MutableStateFlow<List<CalendarEvent>> get() = _calendarEvent
@@ -33,7 +35,7 @@ class CalendarViewModel @Inject constructor(
 
     private fun getUpcomingEvents() {
         viewModelScope.launch {
-            repository.getPetEventsWithin30Days()
+            eventRepository.getPetEventsWithin30Days()
                 .flowOn(Dispatchers.IO)
                 .collect{ events ->
                     val calendarEvents = events.map { event ->
@@ -49,7 +51,7 @@ class CalendarViewModel @Inject constructor(
     }
 
     private suspend fun getPetPhoto(petId: Int): String? {
-        return repository.getSinglePet(petId)
+        return petRepository.getSinglePet(petId)
             .flowOn(Dispatchers.IO)
             .first().photo
     }

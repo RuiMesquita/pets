@@ -3,8 +3,8 @@ package com.example.pets.mappers
 import com.example.pets.common.Constants
 import com.example.pets.data.entities.PetEntity
 import com.example.pets.data.entities.toPet
-import com.example.pets.domain.enums.Gender
-import com.example.pets.domain.enums.Species
+import com.example.pets.domain.model.enums.Gender
+import com.example.pets.domain.model.enums.Species
 import com.example.pets.domain.model.Pet
 import junit.framework.TestCase.assertEquals
 import org.junit.Test

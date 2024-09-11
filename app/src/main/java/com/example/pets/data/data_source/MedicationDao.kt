@@ -14,21 +14,13 @@ import com.example.pets.domain.model.Medication
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PetsDao {
-
-    // Pets table
-    @Query("SELECT * FROM pets_table ORDER BY name ASC")
-    fun getPets(): Flow<List<PetEntity>>
-
-    @Query("SELECT * FROM pets_table WHERE id=:id")
-    fun getSinglePet(id: Int): Flow<PetEntity>
+interface MedicationDao {
+    @Query("SELECT * FROM medications_table WHERE pet_id=:id")
+    fun getPetMedication(id: Int): Flow<List<MedicationEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPet(pet: PetEntity)
+    suspend fun insertMedication(medication: MedicationEntity)
 
-    @Query("DELETE FROM pets_table WHERE id=:id")
-    suspend fun deletePet(id: Int)
-
-    @Update
-    suspend fun updatePet(pet: PetEntity)
+    @Delete
+    suspend fun deleteMedication(medication: MedicationEntity)
 }

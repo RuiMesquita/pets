@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.pets.data.entities.toEvent
 import com.example.pets.data.entities.toMedication
 import com.example.pets.data.entities.toPet
+import com.example.pets.domain.repository.EventRepository
+import com.example.pets.domain.repository.MedicationRepository
 import com.example.pets.domain.repository.PetsRepository
 import com.example.pets.utils.DateUtils.Companion.calculateAge
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,9 @@ import javax.inject.Inject
 @HiltViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 class PetProfileViewModel @Inject constructor(
-    private val repository: PetsRepository,
+    private val petRepository: PetsRepository,
+    private val medicationRepository: MedicationRepository,
+    private val eventRepository: EventRepository,
     savedStateHandle: SavedStateHandle
 ): ViewModel() {
     private val _petRegistrationState = MutableStateFlow(PetRegistrationState())
@@ -38,7 +42,7 @@ class PetProfileViewModel @Inject constructor(
 
     private fun getPetInfo(id: Int) {
         viewModelScope.launch {
-            repository.getSinglePet(id)
+            petRepository.getSinglePet(id)
                 .flowOn(Dispatchers.IO)
                 .collect { entity ->
                     val pet = entity.toPet()
@@ -65,19 +69,19 @@ class PetProfileViewModel @Inject constructor(
         when(event) {
             is PetProfileEvent.DeletePet -> {
                 viewModelScope.launch {
-                    repository.deletePet(_petRegistrationState.value.id)
+                    petRepository.deletePet(_petRegistrationState.value.id)
                 }
             }
 
             is PetProfileEvent.DeleteEvent -> {
                 viewModelScope.launch {
-                    _petRegistrationState.value.eventToDelete?.let { repository.deleteEvent(it) }
+                    _petRegistrationState.value.eventToDelete?.let { eventRepository.deleteEvent(it) }
                 }
             }
 
             is PetProfileEvent.DeleteMedication -> {
                 viewModelScope.launch {
-                    _petRegistrationState.value.medicationToDelete?.let { repository.deleteMedication(it) }
+                    _petRegistrationState.value.medicationToDelete?.let { medicationRepository.deleteMedication(it) }
                 }
             }
 
@@ -93,7 +97,7 @@ class PetProfileViewModel @Inject constructor(
 
 
     private suspend fun getPetMedication(petId: Int) {
-        repository.getPetMedication(petId)
+        medicationRepository.getPetMedication(petId)
             .flowOn(Dispatchers.IO)
             .collect { medication ->
                 val medicationList = medication.map { medicationEntity -> medicationEntity.toMedication() }
@@ -102,7 +106,7 @@ class PetProfileViewModel @Inject constructor(
     }
 
     private suspend fun getPetEvents(petId: Int) {
-        repository.getPetEvents(petId)
+        eventRepository.getPetEvents(petId)
             .flowOn(Dispatchers.IO)
             .collect {entities ->
                 val events = entities.map { eventEntity -> eventEntity.toEvent() }
