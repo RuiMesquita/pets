@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.Flow
 class PetsRepositoryImpl(
     private val dao: PetsDao
 ): PetsRepository {
-    override fun getPets(): Flow<List<PetEntity>> {
+    override suspend fun getPets(): Flow<List<PetEntity>> {
         return dao.getPets()
     }
 
-    override fun getSinglePet(id: Int): Flow<PetEntity> {
+    override suspend fun getSinglePet(id: Int): Flow<PetEntity> {
         return dao.getSinglePet(id)
     }
 

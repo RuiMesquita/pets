@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface PetsRepository {
 
-    fun getPets(): Flow<List<PetEntity>>
+    suspend fun getPets(): Flow<List<PetEntity>>
 
-    fun getSinglePet(id: Int): Flow<PetEntity>
+    suspend fun getSinglePet(id: Int): Flow<PetEntity>
 
     suspend fun insertPet(petEntity: PetEntity)
 

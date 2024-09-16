@@ -9,15 +9,15 @@ class EventRepositoryImpl(
     private val dao: EventsDao
 ): EventRepository {
 
-    override fun getPetEvents(id: Int): Flow<List<EventEntity>> {
+    override suspend fun getPetEvents(id: Int): Flow<List<EventEntity>> {
         return dao.getPetEvents(id)
     }
 
-    override fun getPetEventsWithin30Days(): Flow<List<EventEntity>> {
+    override suspend fun getPetEventsWithin30Days(): Flow<List<EventEntity>> {
         return dao.getPetEventsWithin30Days()
     }
 
-    override fun getOverdueEvents(): Flow<List<EventEntity>> {
+    override suspend fun getOverdueEvents(): Flow<List<EventEntity>> {
         return dao.getOverdueEvents()
     }
 

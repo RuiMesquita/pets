@@ -2,7 +2,6 @@ package com.example.pets
 
 import android.app.Application
 import com.example.pets.domain.repository.EventRepository
-import com.example.pets.domain.repository.PetsRepository
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

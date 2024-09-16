@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 class MedicationRepositoryImpl(
     private val dao: MedicationDao
 ): MedicationRepository {
-    override fun getPetMedication(id: Int): Flow<List<MedicationEntity>> {
+    override suspend fun getPetMedication(id: Int): Flow<List<MedicationEntity>> {
         return dao.getPetMedication(id)
     }
 

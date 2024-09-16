@@ -105,8 +105,9 @@ fun PetsScreen (
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp)),
-                    colors = TextFieldDefaults.textFieldColors(
-                        containerColor = DefaultGrey,
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = DefaultGrey,
+                        unfocusedContainerColor = DefaultGrey,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
                     value = searchText,

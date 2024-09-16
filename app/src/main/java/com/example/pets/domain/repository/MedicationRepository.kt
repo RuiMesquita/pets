@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MedicationRepository {
 
-    fun getPetMedication(id: Int): Flow<List<MedicationEntity>>
+    suspend fun getPetMedication(id: Int): Flow<List<MedicationEntity>>
 
     suspend fun insertMedication(medicationEntity: MedicationEntity)
 

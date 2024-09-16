@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface EventRepository {
 
-    fun getPetEvents(id: Int): Flow<List<EventEntity>>
+    suspend fun getPetEvents(id: Int): Flow<List<EventEntity>>
 
-    fun getPetEventsWithin30Days(): Flow<List<EventEntity>>
+    suspend fun getPetEventsWithin30Days(): Flow<List<EventEntity>>
 
-    fun getOverdueEvents(): Flow<List<EventEntity>>
+    suspend fun getOverdueEvents(): Flow<List<EventEntity>>
 
     suspend fun deleteEvents(events: List<EventEntity>)
 

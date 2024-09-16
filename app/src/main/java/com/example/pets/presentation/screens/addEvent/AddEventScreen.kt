@@ -10,10 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -32,7 +31,6 @@ import com.example.pets.presentation.ui.theme.customTypography
 import kotlinx.coroutines.flow.Flow
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEventScreen(
     navController: NavController,
@@ -77,7 +75,7 @@ fun AddEventScreen(
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
             isError = state.nameError != null,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
             ),
@@ -98,7 +96,7 @@ fun AddEventScreen(
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
             isError = state.dateError != null,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
             ),
@@ -119,7 +117,7 @@ fun AddEventScreen(
             shape = RoundedCornerShape(16.dp),
             singleLine = true,
             isError = state.hourError != null,
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = Color(0xFFC0C0C0),
                 focusedBorderColor = PrimaryYellow
             ),
