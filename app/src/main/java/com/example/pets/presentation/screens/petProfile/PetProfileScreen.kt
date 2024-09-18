@@ -24,6 +24,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -119,12 +120,12 @@ fun PetProfileScreen (
                     text = { Text(text = "Schedule events", style = customTypography.bodyMedium) },
                     onClick = { navController.navigate(Screens.AddEvent.route + "/${petRegistrationState.id}") },
                 )
-                Divider()
+                HorizontalDivider()
                 DropdownMenuItem(
                     text = { Text(text = "Add Medication", style = customTypography.bodyMedium) },
                     onClick = { navController.navigate(Screens.AddMedication.route + "/${petRegistrationState.id}") }
                 )
-                Divider()
+                HorizontalDivider()
                 DropdownMenuItem(
                     text = { Text(text = "Delete Pet", style = customTypography.bodyMedium) },
                     onClick = {

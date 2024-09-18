@@ -25,12 +25,21 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -62,6 +71,7 @@ import com.example.pets.presentation.ui.theme.Pink
 import com.example.pets.presentation.ui.theme.PrimaryYellow
 import com.example.pets.presentation.ui.theme.WashedWhite
 import com.example.pets.presentation.ui.theme.customTypography
+import com.example.pets.utils.DateUtils.Companion.convertMillisToDate
 import kotlinx.coroutines.flow.Flow
 
 
@@ -188,19 +198,7 @@ fun AddPetScreen(
         }
 
         YSpacing15Dp()
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = state.dateOfBirth,
-            onValueChange = { onEvent(PetEvent.SetDateOfBirth(it)) },
-            placeholder = { Text(text = "Date of birth", style = customTypography.bodyLarge, color = Color(0xFFC0C0C0))},
-            shape = RoundedCornerShape(16.dp),
-            singleLine = true,
-            isError = state.dateOfBirtheError != null,
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = Color(0xFFC0C0C0),
-                focusedBorderColor = PrimaryYellow
-            ),
-        )
+        CustomDatePicker(state, onEvent)
         if (state.dateOfBirtheError != null) {
             Text(
                 text = state.dateOfBirtheError,
@@ -416,5 +414,82 @@ fun SpeciesOption(
                 .height(43.dp)
                 .width(43.dp)
         )
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun CustomDatePicker(
+    state: AddPetState,
+    onEvent: (PetEvent) -> Unit
+) {
+    var showDatePicker by remember { mutableStateOf(false) }
+    val datePickerState = rememberDatePickerState()
+
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = state.dateOfBirth,
+        onValueChange = { },
+        placeholder = {
+            Text(
+                text = "Date of birth",
+                style = customTypography.bodyLarge,
+                color = Color(0xFFC0C0C0)
+            )
+        },
+        shape = RoundedCornerShape(16.dp),
+        singleLine = true,
+        readOnly = true,
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedBorderColor = Color(0xFFC0C0C0),
+            focusedBorderColor = PrimaryYellow
+        ),
+        trailingIcon = {
+            IconButton(onClick = { showDatePicker = !showDatePicker }) {
+                Icon(
+                    imageVector = Icons.Default.DateRange,
+                    contentDescription = "Select date"
+                )
+            }
+        },
+    )
+    if (showDatePicker) {
+        DatePickerItem(
+            onDismiss = {showDatePicker = !showDatePicker},
+            datePickerState = datePickerState,
+            onEvent = onEvent
+        )
+    }
+}
+
+
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun DatePickerItem(
+    onDismiss: () -> Unit,
+    datePickerState: DatePickerState,
+    onEvent: (PetEvent) -> Unit
+) {
+
+    DatePickerDialog(
+        onDismissRequest = onDismiss,
+        confirmButton = {
+            TextButton(onClick = {
+                val selectedDate = convertMillisToDate(datePickerState.selectedDateMillis)
+                onEvent(PetEvent.SetDateOfBirth(selectedDate))
+                onDismiss()
+            }) {
+                Text("OK")
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
+        }
+    ) {
+        DatePicker(state = datePickerState)
     }
 }
